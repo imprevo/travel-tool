@@ -8,7 +8,7 @@
   },
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": ["*.ts", "*.js"],
       "parserOptions": {
         "project": ["tsconfig.json"],
         "createDefaultProgram": true
@@ -51,6 +51,12 @@
             "newlines-between": "never"
           }
         ]
+      }
+    },
+    {
+      "files": ["*.js"],
+      "env": {
+        "node": true
       }
     },
     {
