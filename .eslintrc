@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:rxjs/recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "import/newline-after-import": "error",
+        "import/no-extraneous-dependencies": "error",
+        "import/no-unresolved": ["error", { "commonjs": true }],
+        "import/order": [
+          "error",
+          {
+            "alphabetize": { "order": "asc" },
+            "newlines-between": "never"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+}
