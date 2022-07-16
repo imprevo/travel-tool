@@ -1,0 +1,24 @@
+<form class="search-form" [formGroup]="searchForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" formControlName="search" />
+  </mat-form-field>
+</form>
+
+<div class="list">
+  <mat-card class="card" *ngFor="let travel of travels">
+    <mat-card-title class="card-title">
+      <span>{{ travel.name }}</span>
+      <div>
+        <mat-icon>mode_edit</mat-icon>
+        <mat-icon>delete</mat-icon>
+      </div>
+    </mat-card-title>
+    <span class="card-title-date">
+      {{ travel.createdDate | date: 'longDate' }}
+    </span>
+    <p>
+      {{ travel.description }}
+    </p>
+  </mat-card>
+</div>

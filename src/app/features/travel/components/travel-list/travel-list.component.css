@@ -1,0 +1,26 @@
+.search-form {
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card {
+  flex: 0 0 300px;
+}
+
+.card-title {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card-title-date {
+  font-size: 14px;
+}
