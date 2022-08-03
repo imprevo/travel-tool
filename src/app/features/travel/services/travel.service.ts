@@ -1,64 +1,36 @@
 import { Injectable } from '@angular/core';
-import { TravelModel } from '../models/travel';
-
-const fakeData: TravelModel[] = [
-  new TravelModel({
-    name: 'New York',
-    description: 'test',
-    createdDate: '2019-1-1',
-    updatedDate: '2019-1-1',
-  }),
-  new TravelModel({
-    name: 'Berlin',
-    description: 'description',
-    createdDate: '2019-5-6',
-    updatedDate: '2019-5-6',
-  }),
-  new TravelModel({
-    name: 'Novosibirsk',
-    description: '',
-    createdDate: '2020-11-10',
-    updatedDate: '2020-11-10',
-  }),
-  new TravelModel({
-    name: 'Limassol',
-    description: null,
-    createdDate: '2021-3-7',
-    updatedDate: '2021-3-7',
-  }),
-  new TravelModel({
-    name: 'Birthday',
-    description: 'Yep, my birthday plans',
-    createdDate: '2022-5-14',
-    updatedDate: '2022-5-14',
-  }),
-  new TravelModel({
-    name: 'New year',
-    description: 'Let it snow!',
-    createdDate: '2022-4-20',
-    updatedDate: '2022-4-20',
-  }),
-  new TravelModel({
-    name: 'Lorem ipsum',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum blandit augue eget ligula facilisis, eget interdum erat dapibus.',
-    createdDate: '2022-7-2',
-    updatedDate: '2022-7-2',
-  }),
-];
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { TravelModel } from '../models/travel.model';
+import { TravelDataProviderService } from './travel-data-provider.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TravelService {
-  private data: TravelModel[] = fakeData;
+  private data = new BehaviorSubject<TravelModel[]>([]);
 
-  getList(search?: string | null) {
+  constructor(private travelDataProvider: TravelDataProviderService) {}
+
+  loadTravels() {
+    const data = this.travelDataProvider
+      .get()
+      .map((travel) => TravelModel.fromDTO(travel));
+    this.data.next(data);
+  }
+
+  saveTravels() {
+    const data = this.data
+      .getValue()
+      .map((travel) => TravelModel.toDTO(travel));
+    this.travelDataProvider.set(data);
+  }
+
+  getList(search?: string | null): Observable<TravelModel[]> {
     const searchValue = search?.trim();
     if (!searchValue) return this.data;
-    const regexp = new RegExp(searchValue, 'i');
-    return this.data.filter(
-      (travel) => travel.name.match(regexp) || travel.description?.match(regexp)
+    const searchRegExp = new RegExp(searchValue, 'i');
+    return this.data.pipe(
+      map((data) => data.filter((travel) => travel.hasContent(searchRegExp)))
     );
   }
 }

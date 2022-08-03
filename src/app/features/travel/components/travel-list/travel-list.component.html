@@ -6,7 +6,7 @@
 </form>
 
 <div class="list">
-  <mat-card class="card" *ngFor="let travel of travels">
+  <mat-card class="card" *ngFor="let travel of travels$ | async">
     <mat-card-title class="card-title">
       <span>{{ travel.name }}</span>
       <div>
