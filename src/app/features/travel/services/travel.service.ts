@@ -11,18 +11,25 @@ export class TravelService {
 
   constructor(private travelDataProvider: TravelDataProviderService) {}
 
-  loadTravels() {
-    const data = this.travelDataProvider
-      .get()
-      .map((travel) => TravelModel.fromDTO(travel));
+  private setData(data: TravelModel[], shouldSave = false) {
     this.data.next(data);
+    if (shouldSave) {
+      this.saveData();
+    }
   }
 
-  saveTravels() {
+  private saveData() {
     const data = this.data
       .getValue()
       .map((travel) => TravelModel.toDTO(travel));
     this.travelDataProvider.set(data);
+  }
+
+  loadTravels() {
+    const data = this.travelDataProvider
+      .get()
+      .map((travel) => TravelModel.fromDTO(travel));
+    this.setData(data);
   }
 
   getList(search?: string | null): Observable<TravelModel[]> {
@@ -32,5 +39,10 @@ export class TravelService {
     return this.data.pipe(
       map((data) => data.filter((travel) => travel.hasContent(searchRegExp)))
     );
+  }
+
+  deleteTravel(id: string) {
+    const data = this.data.getValue().filter((travel) => travel.id !== id);
+    this.setData(data, true);
   }
 }

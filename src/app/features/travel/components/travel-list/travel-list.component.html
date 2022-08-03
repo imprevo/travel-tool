@@ -10,8 +10,12 @@
     <mat-card-title class="card-title">
       <span>{{ travel.name }}</span>
       <div>
-        <mat-icon>mode_edit</mat-icon>
-        <mat-icon>delete</mat-icon>
+        <button mat-icon-button disabled>
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTravel(travel)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </mat-card-title>
     <span class="card-title-date">

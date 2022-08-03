@@ -1,10 +1,12 @@
 export class TravelModel {
+  id: string;
   name: string;
   description: string | null;
   createdDate: Date;
   updatedDate: Date;
 
   private constructor(travel: TravelDTO) {
+    this.id = travel.id;
     this.name = travel.name;
     this.description = travel.description;
     this.createdDate = new Date(travel.createdDate);
@@ -13,6 +15,7 @@ export class TravelModel {
 
   static toDTO(travel: TravelModel): TravelDTO {
     return {
+      id: travel.id,
       name: travel.name,
       description: travel.description,
       createdDate: travel.createdDate.toISOString(),
@@ -31,6 +34,7 @@ export class TravelModel {
 }
 
 export interface TravelDTO {
+  id: string;
   name: string;
   description: string | null;
   createdDate: string;

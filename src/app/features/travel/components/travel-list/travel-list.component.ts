@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { debounceTime, startWith, switchMap } from 'rxjs';
+import { DialogService } from '../../../../shared/dialog';
+import { TravelModel } from '../../models/travel.model';
 import { TravelService } from '../../services/travel.service';
 
 @Component({
@@ -20,12 +22,29 @@ export class TravelListComponent implements OnInit {
   );
 
   travels$ = this.filters$.pipe(
-    switchMap((search) => this.travelService.getList(search.search))
+    switchMap((filters) => this.travelService.getList(filters.search))
   );
 
-  constructor(private fb: FormBuilder, private travelService: TravelService) {}
+  constructor(
+    private fb: FormBuilder,
+    private travelService: TravelService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit() {
     this.travelService.loadTravels();
+  }
+
+  deleteTravel(travel: TravelModel) {
+    this.dialogService
+      .confirm(
+        'Confirm deleting',
+        `Are you sure you want to delete ${travel.name}?`
+      )
+      .subscribe((result) => {
+        if (result) {
+          this.travelService.deleteTravel(travel.id);
+        }
+      });
   }
 }
