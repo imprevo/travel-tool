@@ -1,9 +1,18 @@
+import { convertStringToEnum } from '../../../shared/utils/enums';
+
+export enum TravelStatus {
+  NEW = 'new',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
+}
+
 export class TravelModel {
   id: string;
   name: string;
   description: string | null;
   createdDate: Date;
   updatedDate: Date;
+  status: TravelStatus;
 
   private constructor(travel: TravelDTO) {
     this.id = travel.id;
@@ -11,6 +20,8 @@ export class TravelModel {
     this.description = travel.description;
     this.createdDate = new Date(travel.createdDate);
     this.updatedDate = new Date(travel.updatedDate);
+    this.status =
+      convertStringToEnum(TravelStatus, travel.status) ?? TravelStatus.NEW;
   }
 
   static toDTO(travel: TravelModel): TravelDTO {
@@ -20,6 +31,7 @@ export class TravelModel {
       description: travel.description,
       createdDate: travel.createdDate.toISOString(),
       updatedDate: travel.updatedDate.toISOString(),
+      status: travel.status,
     };
   }
 
@@ -39,4 +51,5 @@ export interface TravelDTO {
   description: string | null;
   createdDate: string;
   updatedDate: string;
+  status: string;
 }

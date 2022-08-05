@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { TravelModel } from '../models/travel.model';
+import { TravelModel, TravelStatus } from '../models/travel.model';
 import { TravelDataProviderService } from './travel-data-provider.service';
 
 @Injectable({
@@ -32,12 +32,26 @@ export class TravelService {
     this.setData(data);
   }
 
-  getList(search?: string | null): Observable<TravelModel[]> {
-    const searchValue = search?.trim();
-    if (!searchValue) return this.data;
-    const searchRegExp = new RegExp(searchValue, 'i');
+  getList(
+    search?: string | null,
+    status?: TravelStatus | null
+  ): Observable<TravelModel[]> {
     return this.data.pipe(
-      map((data) => data.filter((travel) => travel.hasContent(searchRegExp)))
+      map((data) => {
+        let result = data;
+
+        if (status) {
+          result = data.filter((travel) => travel.status === status);
+        }
+
+        const searchValue = search?.trim();
+        if (searchValue) {
+          const searchRegExp = new RegExp(searchValue, 'i');
+          result = data.filter((travel) => travel.hasContent(searchRegExp));
+        }
+
+        return result;
+      })
     );
   }
 

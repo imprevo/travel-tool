@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { debounceTime, startWith, switchMap } from 'rxjs';
 import { DialogService } from '../../../../shared/dialog';
-import { TravelModel } from '../../models/travel.model';
+import { TravelModel, TravelStatus } from '../../models/travel.model';
 import { TravelService } from '../../services/travel.service';
 
 @Component({
@@ -14,6 +14,7 @@ import { TravelService } from '../../services/travel.service';
 export class TravelListComponent implements OnInit {
   searchForm = this.fb.group({
     search: '',
+    status: <TravelStatus | null>null,
   });
 
   filters$ = this.searchForm.valueChanges.pipe(
@@ -22,8 +23,16 @@ export class TravelListComponent implements OnInit {
   );
 
   travels$ = this.filters$.pipe(
-    switchMap((filters) => this.travelService.getList(filters.search))
+    switchMap((filters) =>
+      this.travelService.getList(filters.search, filters.status)
+    )
   );
+
+  statusList = [
+    { value: TravelStatus.NEW, label: 'New' },
+    { value: TravelStatus.COMPLETED, label: 'Completed' },
+    { value: TravelStatus.CANCELLED, label: 'Cancelled' },
+  ];
 
   constructor(
     private fb: FormBuilder,

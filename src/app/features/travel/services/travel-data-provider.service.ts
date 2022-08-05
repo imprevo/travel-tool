@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageClient } from '../../../shared/adapters';
-import { TravelDTO } from '../models/travel.model';
+import { TravelDTO, TravelStatus } from '../models/travel.model';
 
 const fakeData: TravelDTO[] = [
   {
@@ -9,6 +9,7 @@ const fakeData: TravelDTO[] = [
     description: 'test',
     createdDate: '2019-1-1',
     updatedDate: '2019-1-1',
+    status: TravelStatus.COMPLETED,
   },
   {
     id: '2',
@@ -16,6 +17,7 @@ const fakeData: TravelDTO[] = [
     description: 'description',
     createdDate: '2019-5-6',
     updatedDate: '2019-5-6',
+    status: TravelStatus.COMPLETED,
   },
   {
     id: '3',
@@ -23,6 +25,7 @@ const fakeData: TravelDTO[] = [
     description: '',
     createdDate: '2020-11-10',
     updatedDate: '2020-11-10',
+    status: TravelStatus.CANCELLED,
   },
   {
     id: '4',
@@ -30,6 +33,7 @@ const fakeData: TravelDTO[] = [
     description: null,
     createdDate: '2021-3-7',
     updatedDate: '2021-3-7',
+    status: TravelStatus.COMPLETED,
   },
   {
     id: '5',
@@ -37,6 +41,7 @@ const fakeData: TravelDTO[] = [
     description: 'Yep, my birthday plans',
     createdDate: '2022-5-14',
     updatedDate: '2022-5-14',
+    status: TravelStatus.NEW,
   },
   {
     id: '6',
@@ -44,6 +49,7 @@ const fakeData: TravelDTO[] = [
     description: 'Let it snow!',
     createdDate: '2022-4-20',
     updatedDate: '2022-4-20',
+    status: TravelStatus.CANCELLED,
   },
   {
     id: '7',
@@ -52,6 +58,7 @@ const fakeData: TravelDTO[] = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum blandit augue eget ligula facilisis, eget interdum erat dapibus.',
     createdDate: '2022-7-2',
     updatedDate: '2022-7-2',
+    status: TravelStatus.NEW,
   },
 ];
 
