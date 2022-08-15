@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { debounceTime, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, debounceTime, startWith, switchMap } from 'rxjs';
 import { DialogService } from '../../../../shared/dialog';
-import { TravelModel, TravelStatus } from '../../models/travel.model';
+import { TravelModel } from '../../models/travel.model';
 import { TravelService } from '../../services/travel.service';
+import { FiltersData } from '../travel-list-filters/travel-list-filters.component';
 
 @Component({
   selector: 'app-travel-list',
@@ -12,14 +12,14 @@ import { TravelService } from '../../services/travel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TravelListComponent implements OnInit {
-  searchForm = this.fb.group({
+  filtersData$ = new BehaviorSubject<FiltersData>({
     search: '',
-    status: <TravelStatus | null>null,
+    status: null,
   });
 
-  filters$ = this.searchForm.valueChanges.pipe(
+  filters$ = this.filtersData$.pipe(
     debounceTime(200),
-    startWith(this.searchForm.value)
+    startWith(this.filtersData$.value)
   );
 
   travels$ = this.filters$.pipe(
@@ -28,20 +28,17 @@ export class TravelListComponent implements OnInit {
     )
   );
 
-  statusList = [
-    { value: TravelStatus.NEW, label: 'New' },
-    { value: TravelStatus.COMPLETED, label: 'Completed' },
-    { value: TravelStatus.CANCELLED, label: 'Cancelled' },
-  ];
-
   constructor(
-    private fb: FormBuilder,
     private travelService: TravelService,
     private dialogService: DialogService
   ) {}
 
   ngOnInit() {
     this.travelService.loadTravels();
+  }
+
+  filterChanged(data: FiltersData) {
+    this.filtersData$.next(data);
   }
 
   deleteTravel(travel: TravelModel) {

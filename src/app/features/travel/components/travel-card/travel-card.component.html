@@ -1,0 +1,26 @@
+<mat-card class="card" [ngClass]="'status-' + travel.status">
+  <mat-card-title class="card-title">
+    <span class="card-name">{{ travel.name }}</span>
+    <div>
+      <button class="card-edit-btn" mat-icon-button (click)="onEdit()" disabled>
+        <mat-icon>mode_edit</mat-icon>
+      </button>
+      <button
+        class="card-delete-btn"
+        mat-icon-button
+        color="warn"
+        (click)="onDelete()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <span class="card-date">
+      {{ travel.createdDate | date: 'longDate' }}
+    </span>
+    <p class="card-description">
+      {{ travel.description }}
+    </p>
+  </mat-card-content>
+</mat-card>

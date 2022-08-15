@@ -1,5 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from '../../../shared/material/material.module';
 import { PageLayoutComponent } from './page-layout.component';
 
 describe('PageLayoutComponent', () => {
@@ -10,7 +10,7 @@ describe('PageLayoutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PageLayoutComponent],
-      imports: [MaterialModule],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageLayoutComponent);
@@ -29,9 +29,8 @@ describe('PageLayoutComponent', () => {
     });
 
     it('should render title', () => {
-      expect(nativeElement.querySelector('.header')?.textContent).toContain(
-        'Travel Tool'
-      );
+      const header = nativeElement.querySelector('.header');
+      expect(header?.textContent).toContain('Travel Tool');
     });
   });
 
@@ -41,9 +40,8 @@ describe('PageLayoutComponent', () => {
     });
 
     it('should render author', () => {
-      expect(nativeElement.querySelector('.footer')?.textContent).toContain(
-        '© imprevo'
-      );
+      const footer = nativeElement.querySelector('.footer');
+      expect(footer?.textContent).toContain('© imprevo');
     });
   });
 });

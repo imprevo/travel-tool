@@ -1,6 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../../../shared/material/material.module';
 import { TravelListComponent } from './travel-list.component';
 
@@ -11,7 +10,8 @@ describe('TravelListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TravelListComponent],
-      imports: [MaterialModule, NoopAnimationsModule, ReactiveFormsModule],
+      imports: [MaterialModule],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TravelListComponent);

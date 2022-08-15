@@ -1,0 +1,15 @@
+<form class="form" [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" formControlName="search" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option>All</mat-option>
+      <mat-option *ngFor="let option of statusList" [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

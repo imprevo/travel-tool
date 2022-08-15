@@ -1,6 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MaterialModule } from '../../../../shared/material';
 import {
   ConfirmDialogComponent,
   ConfirmDialogData,
@@ -9,11 +9,11 @@ import {
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
   let fixture: ComponentFixture<ConfirmDialogComponent>;
+  let nativeElement: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ConfirmDialogComponent],
-      imports: [MaterialModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -23,14 +23,26 @@ describe('ConfirmDialogComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ConfirmDialogComponent);
     component = fixture.componentInstance;
+    nativeElement = fixture.nativeElement;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain title', () => {
+    const title = nativeElement.querySelector('.title');
+    expect(title?.textContent).toEqual('Dialog title');
+  });
+
+  it('should contain message', () => {
+    const message = nativeElement.querySelector('.content');
+    expect(message?.textContent).toEqual('Dialog message');
   });
 });
