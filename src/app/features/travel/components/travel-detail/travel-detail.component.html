@@ -1,0 +1,10 @@
+<app-travel-card
+  *ngIf="travel; else notFound"
+  [travel]="travel"
+></app-travel-card>
+
+<ng-template #notFound>
+  <mat-card>
+    <p>Travel {{ routeId$ | async }} not found</p>
+  </mat-card>
+</ng-template>

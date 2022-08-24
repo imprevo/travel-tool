@@ -13,6 +13,11 @@
   justify-content: center;
 }
 
+.logo {
+  color: #fff;
+  text-decoration: none;
+}
+
 .footer {
   flex: 0 0 32px;
   align-items: center;

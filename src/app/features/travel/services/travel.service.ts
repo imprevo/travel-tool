@@ -7,19 +7,19 @@ import { TravelDataProviderService } from './travel-data-provider.service';
   providedIn: 'root',
 })
 export class TravelService {
-  private data = new BehaviorSubject<TravelModel[]>([]);
+  private data$ = new BehaviorSubject<TravelModel[]>([]);
 
   constructor(private travelDataProvider: TravelDataProviderService) {}
 
   private setData(data: TravelModel[], shouldSave = false) {
-    this.data.next(data);
+    this.data$.next(data);
     if (shouldSave) {
       this.saveData();
     }
   }
 
   private saveData() {
-    const data = this.data
+    const data = this.data$
       .getValue()
       .map((travel) => TravelModel.toDTO(travel));
     this.travelDataProvider.set(data);
@@ -36,7 +36,7 @@ export class TravelService {
     search?: string | null,
     status?: TravelStatus | null
   ): Observable<TravelModel[]> {
-    return this.data.pipe(
+    return this.data$.pipe(
       map((data) => {
         let result = data;
 
@@ -55,8 +55,14 @@ export class TravelService {
     );
   }
 
+  getTravel(id: string) {
+    return this.data$.pipe(
+      map((data) => data.find((travel) => travel.id === id) ?? null)
+    );
+  }
+
   deleteTravel(id: string) {
-    const data = this.data.getValue().filter((travel) => travel.id !== id);
+    const data = this.data$.getValue().filter((travel) => travel.id !== id);
     this.setData(data, true);
   }
 }

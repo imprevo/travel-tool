@@ -1,10 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { TravelModel } from '../../models/travel.model';
 
 @Component({
   selector: 'app-travel-card[travel]',
   templateUrl: './travel-card.component.html',
   styleUrls: ['./travel-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TravelCardComponent {
   @Input()

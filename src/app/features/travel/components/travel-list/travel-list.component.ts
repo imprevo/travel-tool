@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, debounceTime, startWith, switchMap } from 'rxjs';
 import { DialogService } from '../../../../shared/dialog';
 import { TravelModel } from '../../models/travel.model';
@@ -11,7 +12,7 @@ import { FiltersData } from '../travel-list-filters/travel-list-filters.componen
   styleUrls: ['./travel-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TravelListComponent implements OnInit {
+export class TravelListComponent {
   filtersData$ = new BehaviorSubject<FiltersData>({
     search: '',
     status: null,
@@ -30,12 +31,9 @@ export class TravelListComponent implements OnInit {
 
   constructor(
     private travelService: TravelService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {}
-
-  ngOnInit() {
-    this.travelService.loadTravels();
-  }
 
   filterChanged(data: FiltersData) {
     this.filtersData$.next(data);
@@ -52,5 +50,10 @@ export class TravelListComponent implements OnInit {
           this.travelService.deleteTravel(travel.id);
         }
       });
+  }
+
+  editTravel(travel: TravelModel) {
+    // TODO: replace with link
+    this.router.navigate(['travels', travel.id]);
   }
 }

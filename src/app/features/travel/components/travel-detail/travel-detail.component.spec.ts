@@ -1,21 +1,20 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from '../../../../shared/material/material.module';
-import { TravelListComponent } from './travel-list.component';
+import { TravelDetailComponent } from './travel-detail.component';
 
-describe('TravelListComponent', () => {
-  let component: TravelListComponent;
-  let fixture: ComponentFixture<TravelListComponent>;
+describe('TravelDetailComponent', () => {
+  let component: TravelDetailComponent;
+  let fixture: ComponentFixture<TravelDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TravelListComponent],
-      imports: [MaterialModule, RouterTestingModule],
+      declarations: [TravelDetailComponent],
+      imports: [RouterTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TravelListComponent);
+    fixture = TestBed.createComponent(TravelDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

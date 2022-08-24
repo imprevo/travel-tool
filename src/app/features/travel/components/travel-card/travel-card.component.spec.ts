@@ -59,15 +59,15 @@ describe('TravelCardComponent', () => {
       expect(editBtn).toBeTruthy();
     });
 
-    it.skip('should emit "editTravel" event when pressing edit button', () => {
+    it('should emit "editTravel" event when pressing edit button', () => {
       let editedTravel: TravelModel | undefined;
       component.editTravel.pipe(first()).subscribe((data) => {
         editedTravel = data;
       });
-      const deleteBtn = nativeElement.querySelector(
-        '.card-delete-btn'
+      const editBtn = nativeElement.querySelector(
+        '.card-edit-btn'
       ) as HTMLElement;
-      deleteBtn.click();
+      editBtn.click();
       expect(editedTravel).toBe(travel);
     });
 
