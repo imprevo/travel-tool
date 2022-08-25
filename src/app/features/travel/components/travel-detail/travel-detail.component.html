@@ -1,7 +1,8 @@
-<app-travel-card
-  *ngIf="travel; else notFound"
-  [travel]="travel"
-></app-travel-card>
+<div *ngIf="travel; else notFound">
+  <app-travel-card [travel]="travel"></app-travel-card>
+
+  <app-map></app-map>
+</div>
 
 <ng-template #notFound>
   <mat-card>

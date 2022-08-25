@@ -11,20 +11,6 @@ export class TravelService {
 
   constructor(private travelDataProvider: TravelDataProviderService) {}
 
-  private setData(data: TravelModel[], shouldSave = false) {
-    this.data$.next(data);
-    if (shouldSave) {
-      this.saveData();
-    }
-  }
-
-  private saveData() {
-    const data = this.data$
-      .getValue()
-      .map((travel) => TravelModel.toDTO(travel));
-    this.travelDataProvider.set(data);
-  }
-
   loadTravels() {
     const data = this.travelDataProvider
       .get()
@@ -64,5 +50,19 @@ export class TravelService {
   deleteTravel(id: string) {
     const data = this.data$.getValue().filter((travel) => travel.id !== id);
     this.setData(data, true);
+  }
+
+  private setData(data: TravelModel[], shouldSave = false) {
+    this.data$.next(data);
+    if (shouldSave) {
+      this.saveData();
+    }
+  }
+
+  private saveData() {
+    const data = this.data$
+      .getValue()
+      .map((travel) => TravelModel.toDTO(travel));
+    this.travelDataProvider.set(data);
   }
 }

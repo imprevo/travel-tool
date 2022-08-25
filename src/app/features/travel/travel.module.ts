@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DialogModule } from '../../shared/dialog';
+import { MapModule } from '../../shared/map';
 import { MaterialModule } from '../../shared/material';
 import { TravelCardComponent } from './components/travel-card/travel-card.component';
 import { TravelDetailComponent } from './components/travel-detail/travel-detail.component';
@@ -23,6 +24,7 @@ import { TravelRoutingModule } from './travel-routing.module';
     ReactiveFormsModule,
     DialogModule,
     RouterModule,
+    MapModule,
   ],
   exports: [TravelRoutingModule],
 })

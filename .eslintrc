@@ -50,7 +50,8 @@
             "alphabetize": { "order": "asc" },
             "newlines-between": "never"
           }
-        ]
+        ],
+        "@typescript-eslint/member-ordering": "error"
       }
     },
     {
