@@ -1,7 +1,7 @@
 <div *ngIf="travel; else notFound">
   <app-travel-card [travel]="travel"></app-travel-card>
 
-  <app-map></app-map>
+  <app-travel-routes class="routes"></app-travel-routes>
 </div>
 
 <ng-template #notFound>

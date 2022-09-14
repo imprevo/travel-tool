@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="side">
+    <mat-card class="card">
+      <!-- <button mat-button color="primary" (click)="addRoute()">Add route</button> -->
+
+      <div class="example-list" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div
+          *ngFor="let point of points; index as i"
+          class="example-box"
+          cdkDrag
+          cdkDragBoundary=".example-list"
+        >
+          <span class="drag-handle" cdkDragHandle>
+            <mat-icon>drag_handle</mat-icon>
+          </span>
+          <span class="example-name">{{ point.name }}</span>
+          <button
+            class="delete-btn"
+            mat-icon-button
+            color="warn"
+            (click)="deletePoint(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="side">
+    <app-map (mapClick)="mapClick($event)"></app-map>
+  </div>
+</div>

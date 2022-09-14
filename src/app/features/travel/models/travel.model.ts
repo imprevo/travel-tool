@@ -46,10 +46,10 @@ export class TravelModel {
 }
 
 export interface TravelDTO {
-  id: string;
-  name: string;
-  description: string | null;
-  createdDate: string;
-  updatedDate: string;
-  status: string;
+  readonly id: string;
+  readonly name: string;
+  readonly description: string | null;
+  readonly createdDate: string;
+  readonly updatedDate: string;
+  readonly status: string;
 }

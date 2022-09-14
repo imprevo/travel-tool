@@ -1,0 +1,19 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <h2 class="title" mat-dialog-title>Create point</h2>
+  <div class="content" mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
+
+    <p>{{ data.coordinate.lat }}</p>
+    <p>{{ data.coordinate.lng }}</p>
+  </div>
+
+  <div class="actions" mat-dialog-actions>
+    <button mat-button [mat-dialog-close]>Cancel</button>
+    <button mat-button type="submit" color="primary" cdkFocusInitial>
+      Confirm
+    </button>
+  </div>
+</form>
