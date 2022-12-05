@@ -21,13 +21,13 @@ describe('TravelCardComponent', () => {
   });
 
   describe('when travel is defined', () => {
-    const travel = TravelModel.fromDTO({
+    const travel = new TravelModel({
       id: '1',
       name: 'Travel name',
       description: 'Travel description',
       status: TravelStatus.NEW,
-      createdDate: '2022-01-01',
-      updatedDate: '2022-03-01',
+      createdDate: new Date('2022-01-01'),
+      updatedDate: new Date('2022-03-01'),
     });
 
     beforeEach(() => {

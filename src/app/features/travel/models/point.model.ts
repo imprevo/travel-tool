@@ -1,23 +1,14 @@
 import { CoordinateDTO, CoordinateModel } from './coordinate.model';
 
+export type PointValue = Pick<PointModel, 'name' | 'coordinate'>;
+
 export class PointModel {
   name: string;
   coordinate: CoordinateModel;
 
-  private constructor(point: PointDTO) {
+  constructor(point: PointValue) {
     this.name = point.name;
-    this.coordinate = CoordinateModel.fromDTO(point.coordinate);
-  }
-
-  static toDTO(point: PointModel): PointDTO {
-    return {
-      name: point.name,
-      coordinate: CoordinateModel.toDTO(point.coordinate),
-    };
-  }
-
-  static fromDTO(point: PointDTO): PointModel {
-    return new PointModel(point);
+    this.coordinate = point.coordinate;
   }
 }
 

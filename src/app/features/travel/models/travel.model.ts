@@ -1,10 +1,13 @@
-import { convertStringToEnum } from '../../../shared/utils/enums';
-
 export enum TravelStatus {
   NEW = 'new',
   COMPLETED = 'completed',
   CANCELLED = 'cancelled',
 }
+
+export type TravelValue = Pick<
+  TravelModel,
+  'id' | 'name' | 'description' | 'createdDate' | 'updatedDate' | 'status'
+>;
 
 export class TravelModel {
   id: string;
@@ -14,29 +17,13 @@ export class TravelModel {
   updatedDate: Date;
   status: TravelStatus;
 
-  private constructor(travel: TravelDTO) {
+  constructor(travel: TravelValue) {
     this.id = travel.id;
     this.name = travel.name;
     this.description = travel.description;
-    this.createdDate = new Date(travel.createdDate);
-    this.updatedDate = new Date(travel.updatedDate);
-    this.status =
-      convertStringToEnum(TravelStatus, travel.status) ?? TravelStatus.NEW;
-  }
-
-  static toDTO(travel: TravelModel): TravelDTO {
-    return {
-      id: travel.id,
-      name: travel.name,
-      description: travel.description,
-      createdDate: travel.createdDate.toISOString(),
-      updatedDate: travel.updatedDate.toISOString(),
-      status: travel.status,
-    };
-  }
-
-  static fromDTO(travel: TravelDTO): TravelModel {
-    return new TravelModel(travel);
+    this.createdDate = travel.createdDate;
+    this.updatedDate = travel.updatedDate;
+    this.status = travel.status;
   }
 
   hasContent(search: RegExp): boolean {

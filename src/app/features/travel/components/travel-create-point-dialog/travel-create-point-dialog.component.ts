@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PointFactory } from '../../fabrics/point.factory';
 import { CoordinateModel } from '../../models/coordinate.model';
 import { PointModel } from '../../models/point.model';
 
@@ -25,13 +26,14 @@ export class TravelCreatePointDialogComponent {
       TravelCreatePointDialogComponent,
       PointModel
     >,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private pointFactory: PointFactory
   ) {}
 
   submit() {
     if (!this.form.valid) return;
 
-    const point = PointModel.fromDTO({
+    const point = this.pointFactory.fromDTO({
       name: this.form.value.name!,
       coordinate: this.data.coordinate,
     });

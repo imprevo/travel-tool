@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MapService } from '../../../../shared/map/services/map.service';
+import { PointFactory } from '../../fabrics/point.factory';
 import { CoordinateDTO } from '../../models/coordinate.model';
 import { PointModel } from '../../models/point.model';
 import { TravelCreatePointDialogService } from '../travel-create-point-dialog/travel-create-point-dialog.service';
@@ -13,16 +14,32 @@ import { TravelCreatePointDialogService } from '../travel-create-point-dialog/tr
 })
 export class TravelRoutesComponent {
   points: PointModel[] = [
-    PointModel.fromDTO({ name: 'test 0', coordinate: { lat: 0, lng: 0 } }),
-    PointModel.fromDTO({ name: 'test 1', coordinate: { lat: 1, lng: 1 } }),
-    PointModel.fromDTO({ name: 'test 2', coordinate: { lat: 2, lng: 2 } }),
-    PointModel.fromDTO({ name: 'test 3', coordinate: { lat: 3, lng: 3 } }),
-    PointModel.fromDTO({ name: 'test 4', coordinate: { lat: 4, lng: 4 } }),
+    this.pointFactory.fromDTO({
+      name: 'test 0',
+      coordinate: { lat: 0, lng: 0 },
+    }),
+    this.pointFactory.fromDTO({
+      name: 'test 1',
+      coordinate: { lat: 1, lng: 1 },
+    }),
+    this.pointFactory.fromDTO({
+      name: 'test 2',
+      coordinate: { lat: 2, lng: 2 },
+    }),
+    this.pointFactory.fromDTO({
+      name: 'test 3',
+      coordinate: { lat: 3, lng: 3 },
+    }),
+    this.pointFactory.fromDTO({
+      name: 'test 4',
+      coordinate: { lat: 4, lng: 4 },
+    }),
   ];
 
   constructor(
     private cd: ChangeDetectorRef,
-    private createPointDialog: TravelCreatePointDialogService
+    private createPointDialog: TravelCreatePointDialogService,
+    private pointFactory: PointFactory
   ) {}
 
   drop(event: CdkDragDrop<string[]>) {

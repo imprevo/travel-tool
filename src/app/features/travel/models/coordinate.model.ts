@@ -1,21 +1,12 @@
+export type CoordinateValue = Pick<CoordinateModel, 'lat' | 'lng'>;
+
 export class CoordinateModel {
   lat: number;
   lng: number;
 
-  private constructor(coordinate: CoordinateDTO) {
+  constructor(coordinate: CoordinateValue) {
     this.lat = coordinate.lat;
     this.lng = coordinate.lng;
-  }
-
-  static toDTO(coordinate: CoordinateModel): CoordinateDTO {
-    return {
-      lat: coordinate.lat,
-      lng: coordinate.lng,
-    };
-  }
-
-  static fromDTO(coordinate: CoordinateDTO): CoordinateModel {
-    return new CoordinateModel(coordinate);
   }
 }
 

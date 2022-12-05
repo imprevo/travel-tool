@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { TravelFactory } from '../fabrics/travel.factory';
 import { TravelModel, TravelStatus } from '../models/travel.model';
 import { TravelDataProviderService } from './travel-data-provider.service';
 
@@ -9,12 +10,15 @@ import { TravelDataProviderService } from './travel-data-provider.service';
 export class TravelService {
   private data$ = new BehaviorSubject<TravelModel[]>([]);
 
-  constructor(private travelDataProvider: TravelDataProviderService) {}
+  constructor(
+    private travelDataProvider: TravelDataProviderService,
+    private travelFactory: TravelFactory
+  ) {}
 
   loadTravels() {
     const data = this.travelDataProvider
       .get()
-      .map((travel) => TravelModel.fromDTO(travel));
+      .map((travel) => this.travelFactory.fromDTO(travel));
     this.setData(data);
   }
 
@@ -62,7 +66,7 @@ export class TravelService {
   private saveData() {
     const data = this.data$
       .getValue()
-      .map((travel) => TravelModel.toDTO(travel));
+      .map((travel) => this.travelFactory.toDTO(travel));
     this.travelDataProvider.set(data);
   }
 }
