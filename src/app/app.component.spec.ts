@@ -1,19 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MockBuilder, MockRender } from 'ng-mocks';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
+import { AppModule } from './app.module';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, CoreModule],
-      declarations: [AppComponent],
-    }).compileComponents();
-  });
+  beforeEach(() => MockBuilder(AppComponent, AppModule));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    const fixture = MockRender(AppComponent);
+
+    expect(fixture.point.componentInstance).toBeTruthy();
   });
 });

@@ -1,25 +1,16 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { MapModule } from '../../map.module';
 import { MapService } from '../../services/map.service';
 import { MapComponent } from './map.component';
 
 describe('MapComponent', () => {
-  let component: MapComponent;
-  let fixture: ComponentFixture<MapComponent>;
-
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [MapComponent],
-      providers: [{ provide: MapService, useValue: { initMap: jest.fn() } }],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(MapComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    await MockBuilder([MapComponent, MapService], MapModule);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(MapComponent);
+
+    expect(fixture.point.componentInstance).toBeTruthy();
   });
 });

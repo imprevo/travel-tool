@@ -1,15 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { MockBuilder, ngMocks } from 'ng-mocks';
+import { TravelModule } from '../travel.module';
 import { TravelsResolver } from './travels.resolver';
 
 describe('TravelsResolver', () => {
-  let resolver: TravelsResolver;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    resolver = TestBed.inject(TravelsResolver);
-  });
+  beforeEach(() => MockBuilder(TravelsResolver, TravelModule));
 
   it('should be created', () => {
+    const resolver = ngMocks.get(TravelsResolver);
+
     expect(resolver).toBeTruthy();
   });
 });

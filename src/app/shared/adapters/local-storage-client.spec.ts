@@ -1,15 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { MockBuilder, ngMocks } from 'ng-mocks';
 import { LocalStorageClient } from './local-storage-client';
 
 describe('LocalStorageClientService', () => {
-  let service: LocalStorageClient;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(LocalStorageClient);
-  });
+  beforeEach(() => MockBuilder(LocalStorageClient));
 
   it('should be created', () => {
+    const service = ngMocks.get(LocalStorageClient);
+
     expect(service).toBeTruthy();
   });
 });

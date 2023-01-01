@@ -1,17 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { MockBuilder, ngMocks } from 'ng-mocks';
+import { MapModule } from '../map.module';
 import { MapService } from './map.service';
 
 describe('MapService', () => {
-  let service: MapService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [MapService],
-    });
-    service = TestBed.inject(MapService);
-  });
+  beforeEach(() => MockBuilder(MapService, MapModule));
 
   it('should be created', () => {
+    const service = ngMocks.get(MapService);
+
     expect(service).toBeTruthy();
   });
 });

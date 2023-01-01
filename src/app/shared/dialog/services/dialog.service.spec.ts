@@ -1,18 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { MaterialModule } from '../../material';
+import { MockBuilder, ngMocks } from 'ng-mocks';
+import { DialogModule } from '../dialog.module';
 import { DialogService } from './dialog.service';
 
 describe('DialogService', () => {
-  let service: DialogService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [MaterialModule],
-    });
-    service = TestBed.inject(DialogService);
-  });
+  beforeEach(() => MockBuilder(DialogService, DialogModule));
 
   it('should be created', () => {
+    const service = ngMocks.get(DialogService);
+
     expect(service).toBeTruthy();
   });
 });
