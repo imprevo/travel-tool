@@ -1,24 +1,10 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { first } from 'rxjs';
+import { MockBuilder, MockRender, ngMocks } from 'ng-mocks';
 import { TravelModel, TravelStatus } from '../../models/travel.model';
+import { TravelModule } from '../../travel.module';
 import { TravelCardComponent } from './travel-card.component';
 
 describe('TravelCardComponent', () => {
-  let component: TravelCardComponent;
-  let fixture: ComponentFixture<TravelCardComponent>;
-  let nativeElement: HTMLElement;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TravelCardComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TravelCardComponent);
-    component = fixture.componentInstance;
-    nativeElement = fixture.nativeElement;
-  });
+  beforeEach(() => MockBuilder(TravelCardComponent, TravelModule));
 
   describe('when travel is defined', () => {
     const travel = new TravelModel({
@@ -30,68 +16,77 @@ describe('TravelCardComponent', () => {
       updatedDate: new Date('2022-03-01'),
     });
 
-    beforeEach(() => {
-      component.travel = travel;
-      fixture.detectChanges();
-    });
-
     it('should be created', () => {
-      expect(component).toBeTruthy();
+      const fixture = MockRender(TravelCardComponent, { travel });
+
+      expect(fixture.point.componentInstance).toBeTruthy();
     });
 
     it('should contain travel name', () => {
-      const name = nativeElement.querySelector('.card-name');
-      expect(name?.textContent).toEqual('Travel name');
+      const fixture = MockRender(TravelCardComponent, { travel });
+      const name = ngMocks.find(fixture, '.card-name');
+
+      expect(ngMocks.formatText(name)).toEqual('Travel name');
     });
 
     it('should contain travel description', () => {
-      const description = nativeElement.querySelector('.card-description');
-      expect(description?.textContent?.trim()).toEqual('Travel description');
+      const fixture = MockRender(TravelCardComponent, { travel });
+      const description = ngMocks.find(fixture, '.card-description');
+
+      expect(ngMocks.formatText(description)).toEqual('Travel description');
     });
 
     it('should contain travel created date', () => {
-      const date = nativeElement.querySelector('.card-date');
-      expect(date?.textContent?.trim()).toEqual('January 1, 2022');
+      const fixture = MockRender(TravelCardComponent, { travel });
+      const date = ngMocks.find(fixture, '.card-date');
+
+      expect(ngMocks.formatText(date)).toEqual('January 1, 2022');
     });
 
     it('should contain edit button', () => {
-      const editBtn = nativeElement.querySelector('.card-edit-btn');
+      const fixture = MockRender(TravelCardComponent, { travel });
+      const editBtn = ngMocks.find(fixture, '.card-edit-btn');
+
       expect(editBtn).toBeTruthy();
     });
 
     it('should emit "editTravel" event when pressing edit button', () => {
-      let editedTravel: TravelModel | undefined;
-      component.editTravel.pipe(first()).subscribe((data) => {
-        editedTravel = data;
+      const editSpy = jest.fn();
+      const fixture = MockRender(TravelCardComponent, {
+        travel,
+        editTravel: editSpy,
       });
-      const editBtn = nativeElement.querySelector(
-        '.card-edit-btn'
-      ) as HTMLElement;
-      editBtn.click();
-      expect(editedTravel).toBe(travel);
+      const editBtn = ngMocks.find(fixture, '.card-edit-btn');
+
+      ngMocks.click(editBtn);
+
+      expect(editSpy).toBeCalledWith(travel);
     });
 
     it('should contain delete button', () => {
-      const deleteBtn = nativeElement.querySelector('.card-delete-btn');
+      const fixture = MockRender(TravelCardComponent, { travel });
+      const deleteBtn = ngMocks.find(fixture, '.card-delete-btn');
+
       expect(deleteBtn).toBeTruthy();
     });
 
     it('should emit "deleteTravel" event when pressing delete button', () => {
-      let deletedTravel: TravelModel | undefined;
-      component.deleteTravel.pipe(first()).subscribe((data) => {
-        deletedTravel = data;
+      const deleteSpy = jest.fn();
+      const fixture = MockRender(TravelCardComponent, {
+        travel,
+        deleteTravel: deleteSpy,
       });
-      const deleteBtn = nativeElement.querySelector(
-        '.card-delete-btn'
-      ) as HTMLElement;
-      deleteBtn.click();
-      expect(deletedTravel).toBe(travel);
+      const deleteBtn = ngMocks.find(fixture, '.card-delete-btn');
+
+      ngMocks.click(deleteBtn);
+
+      expect(deleteSpy).toBeCalledWith(travel);
     });
   });
 
   describe('when travel is not defined', () => {
     it('should throw error', () => {
-      expect(() => fixture.detectChanges()).toThrowError();
+      expect(() => MockRender(TravelCardComponent)).toThrowError();
     });
   });
 });

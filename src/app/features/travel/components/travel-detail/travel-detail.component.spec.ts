@@ -1,25 +1,62 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockBuilder, MockInstance, MockRender, ngMocks } from 'ng-mocks';
+import { of } from 'rxjs';
+import { TravelModel, TravelStatus } from '../../models/travel.model';
+import { TravelService } from '../../services/travel.service';
+import { TravelModule } from '../../travel.module';
+import { TravelCardComponent } from '../travel-card/travel-card.component';
+import { TravelRoutesComponent } from '../travel-routes/travel-routes.component';
 import { TravelDetailComponent } from './travel-detail.component';
 
 describe('TravelDetailComponent', () => {
-  let component: TravelDetailComponent;
-  let fixture: ComponentFixture<TravelDetailComponent>;
+  MockInstance.scope();
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TravelDetailComponent],
-      imports: [RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+  const travelId = '1';
 
-    fixture = TestBed.createComponent(TravelDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() =>
+    MockBuilder(
+      [TravelDetailComponent, RouterTestingModule],
+      TravelModule
+    ).provide({
+      provide: ActivatedRoute,
+      useValue: {
+        paramMap: of(convertToParamMap({ id: travelId })),
+      },
+    })
+  );
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(TravelDetailComponent);
+
+    expect(fixture.point.componentInstance).toBeTruthy();
+  });
+
+  it('should display travel', () => {
+    const travel = new TravelModel({
+      id: '1',
+      name: 'Travel name',
+      description: 'Travel description',
+      status: TravelStatus.NEW,
+      createdDate: new Date('2022-01-01'),
+      updatedDate: new Date('2022-03-01'),
+    });
+    const getTravelSpy = jest.fn(() => of(travel));
+    MockInstance(TravelService, 'getTravel', getTravelSpy);
+    const fixture = MockRender(TravelDetailComponent);
+
+    expect(getTravelSpy).toBeCalledWith(travelId);
+    expect(ngMocks.formatText(fixture)).not.toContain('not found');
+    expect(ngMocks.find(TravelCardComponent)).toBeTruthy();
+    expect(ngMocks.find(TravelRoutesComponent)).toBeTruthy();
+  });
+
+  it('should display not found message when travel is not exist', () => {
+    const getTravelSpy = jest.fn(() => of(null));
+    MockInstance(TravelService, 'getTravel', getTravelSpy);
+    const fixture = MockRender(TravelDetailComponent);
+
+    expect(getTravelSpy).toBeCalledWith(travelId);
+    expect(ngMocks.formatText(fixture)).toContain('not found');
   });
 });

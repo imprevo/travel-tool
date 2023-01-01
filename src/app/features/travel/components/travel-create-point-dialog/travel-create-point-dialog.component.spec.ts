@@ -1,34 +1,26 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MockBuilder, MockProvider, MockRender } from 'ng-mocks';
 import { CoordinateModel } from '../../models/coordinate.model';
-import { TravelCreatePointDialogComponent } from './travel-create-point-dialog.component';
+import { TravelModule } from '../../travel.module';
+import {
+  TravelCreatePointDialogComponent,
+  TravelCreatePointDialogData,
+} from './travel-create-point-dialog.component';
 
 describe('TravelCreatePointDialogComponent', () => {
-  let component: TravelCreatePointDialogComponent;
-  let fixture: ComponentFixture<TravelCreatePointDialogComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TravelCreatePointDialogComponent],
-      providers: [
-        FormBuilder,
-        { provide: MatDialogRef, useValue: {} },
-        {
-          provide: MAT_DIALOG_DATA,
-          useValue: { coordinate: new CoordinateModel({ lat: 1, lng: 1 }) },
-        },
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TravelCreatePointDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() =>
+    MockBuilder(TravelCreatePointDialogComponent, TravelModule)
+      .provide(MockProvider(MatDialogRef))
+      .provide(
+        MockProvider(MAT_DIALOG_DATA, <TravelCreatePointDialogData>{
+          coordinate: new CoordinateModel({ lat: 1, lng: 1 }),
+        })
+      )
+  );
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(TravelCreatePointDialogComponent);
+
+    expect(fixture.point.componentInstance).toBeTruthy();
   });
 });

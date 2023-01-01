@@ -1,25 +1,27 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TravelCreatePointDialogService } from '../travel-create-point-dialog/travel-create-point-dialog.service';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { PointFactory } from '../../fabrics/point.factory';
+import { CoordinateModel } from '../../models/coordinate.model';
+import { PointModel } from '../../models/point.model';
+import { TravelModule } from '../../travel.module';
 import { TravelRoutesComponent } from './travel-routes.component';
 
 describe('TravelRoutesComponent', () => {
-  let component: TravelRoutesComponent;
-  let fixture: ComponentFixture<TravelRoutesComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TravelRoutesComponent],
-      providers: [{ provide: TravelCreatePointDialogService, useValue: {} }],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TravelRoutesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() =>
+    MockBuilder(TravelRoutesComponent, TravelModule).mock(PointFactory, {
+      fromDTO: (point) =>
+        new PointModel({
+          name: point.name,
+          coordinate: new CoordinateModel({
+            lat: 1,
+            lng: 1,
+          }),
+        }),
+    })
+  );
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = MockRender(TravelRoutesComponent);
+
+    expect(fixture.point.componentInstance).toBeTruthy();
   });
 });

@@ -1,21 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MockBuilder, ngMocks } from 'ng-mocks';
+import { TravelModule } from '../../travel.module';
 import { TravelCreatePointDialogService } from './travel-create-point-dialog.service';
 
 describe('TravelCreatePointDialogService', () => {
-  let service: TravelCreatePointDialogService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: MatDialog, useValue: {} },
-        TravelCreatePointDialogService,
-      ],
-    });
-    service = TestBed.inject(TravelCreatePointDialogService);
-  });
+  beforeEach(() => MockBuilder(TravelCreatePointDialogService, TravelModule));
 
   it('should be created', () => {
+    const service = ngMocks.get(TravelCreatePointDialogService);
+
     expect(service).toBeTruthy();
   });
 });
